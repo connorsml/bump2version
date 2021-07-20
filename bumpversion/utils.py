@@ -106,6 +106,14 @@ class ConfiguredFile:
             file_content_before = f.read()
             file_new_lines = f.newlines
 
+            if isinstance(file_new_lines, tuple):
+                logger.warning(
+                    "Found multiple line-ending types %s in file %s ",
+                    file_new_lines,
+                    self.path
+                )
+                file_new_lines = os.linesep
+
         context["current_version"] = self._versionconfig.serialize(
             current_version, context
         )
